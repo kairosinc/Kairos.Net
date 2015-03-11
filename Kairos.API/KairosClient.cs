@@ -34,22 +34,26 @@ namespace Kairos.API
     {
         private const string API_BASE_URL = "http://api.kairos.io";
 
+        private RestClient client;
+        private RestRequest request;
+        private JsonDeserializer deserial;
+
         private string _applicationID { get; set; }
         private string _applicationKey { get; set; }
 
         /// <summary>
         /// The application ID
         /// </summary>
-        public string ApplicationID 
+        public string ApplicationID
         {
             get { return this._applicationID; }
-            set { this._applicationID = value; } 
+            set { this._applicationID = value; }
         }
-        
+
         /// <summary>
         /// The application key
         /// </summary>
-        public string ApplicationKey         
+        public string ApplicationKey
         {
             get { return this._applicationKey; }
             set { this._applicationKey = value; }
@@ -63,6 +67,7 @@ namespace Kairos.API
             // Initialize internal members
             this._applicationID = null;
             this._applicationKey = null;
+            this.Intialize();
         }
 
         /// <summary>
@@ -75,6 +80,7 @@ namespace Kairos.API
             // Initialize internal members
             this._applicationID = applicationId;
             this._applicationKey = applicationKey;
+            this.Intialize();
         }
 
         /// <summary>
@@ -85,38 +91,23 @@ namespace Kairos.API
         /// <returns>The response from the call to /Detect</returns>
         public Kairos.API.DetectResponse Detect(string imageUrl, string selector)
         {
-            var client = new RestClient(API_BASE_URL);
-            
-            var request = new RestRequest("detect", Method.POST);
-            request.RequestFormat = DataFormat.Json;
+            this.request.Resource = "detect";
 
-            // Set the parameters
-            // request.AddParameter("image", imageUrl);
-            // request.AddParameter("selector", "SETPOSE");
-            request.AddHeader("app_id", this._applicationID);
-            request.AddHeader("app_key", this._applicationKey);
-            request.AddHeader("Content-Type", "application/json");
+            // set request headers
+            this.SetHeaders();
 
-            request.AddBody(new { image = imageUrl, selector = selector.ToUpper() });
+            this.request.AddBody(new { image = imageUrl, selector = selector.ToUpper() });
 
-            // Specify the content type expected before desiarializing the object
-            // request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
-            
             // Testing
-            // RestResponse response = (RestResponse) client.Execute(request);
-            // var content = response.Content;
+            RestResponse response = (RestResponse)client.Execute(request);
+            var content = response.Content;
 
             // Execute the request
             var requestResponse = client.Execute<DetectResponse>(request);
 
-            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
-                return null;
-
-            JsonDeserializer deserial = new JsonDeserializer();
-
             // Return the deserialized response
-            return deserial.Deserialize<DetectResponse>(requestResponse);
-           
+            return this.deserial.Deserialize<DetectResponse>(requestResponse);
+
         }
 
         /// <summary>
@@ -129,24 +120,14 @@ namespace Kairos.API
         /// <returns></returns>
         public Kairos.API.EnrollResponse Enroll(string imageUrl, string subjectId, string galleryId, string selector)
         {
-            var client = new RestClient(API_BASE_URL);
-            
-            var request = new RestRequest("enroll", Method.POST);
-            request.RequestFormat = DataFormat.Json;
+            this.request.Resource = "enroll";
 
-            // Add request headers
-            request.AddHeader("app_id", this._applicationID);
-            request.AddHeader("app_key", this._applicationKey);
-            request.AddHeader("Content-Type", "application/json");
-            
+            // set request headers
+            this.SetHeaders();
+
             // Set the parameters
             // Note using the AddParameter method after using the Addbody method to add content to the HTTP Post, the body will be overridden. 
-            request.AddBody(new { image = imageUrl, subject_id = subjectId, gallery_name = galleryId, selector = selector.ToUpper() } );
-
-            // testing
-            // var response = client.Execute(request);
-            // var stuff = response.Content;
-            // var content = requestResponse.Content;
+            this.request.AddBody(new { image = imageUrl, subject_id = subjectId, gallery_name = galleryId, selector = selector.ToUpper() });
 
             // Execute the request
             var requestResponse = client.Execute<EnrollResponse>(request);
@@ -154,14 +135,8 @@ namespace Kairos.API
             // testing
             // var content = requestResponse.Content;
 
-            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
-                return null;
-
-            // Json Deserializer
-            JsonDeserializer deserial = new JsonDeserializer();
-
             // Return the deserialized response
-            return deserial.Deserialize<EnrollResponse>(requestResponse);
+            return this.deserial.Deserialize<EnrollResponse>(requestResponse);
         }
 
         /// <summary>
@@ -171,18 +146,13 @@ namespace Kairos.API
         /// <returns>The recognition response with the possible matches</returns>
         public Kairos.API.RecognizeResponse Recognize(string imageUrl, string galleryId)
         {
-            var client = new RestClient(API_BASE_URL);
+            this.request.Resource = "recognize";
 
-            var request = new RestRequest("recognize", Method.POST);
-            request.RequestFormat = DataFormat.Json;
-
-            // Set request headers
-            request.AddHeader("app_id", this._applicationID);
-            request.AddHeader("app_key", this._applicationKey);
-            request.AddHeader("Content-Type", "application/json");
+            // set request headers
+            this.SetHeaders();
 
             // Add request content 
-            request.AddBody(new { image = imageUrl, gallery_name = galleryId });
+            this.request.AddBody(new { image = imageUrl, gallery_name = galleryId });
 
             // Execute the request
             var requestResponse = client.Execute<RecognizeResponse>(request);
@@ -190,65 +160,60 @@ namespace Kairos.API
             // testing
             // var content = requestResponse.Content;
 
-            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
-                return null;
-            
-            // Json Deserializer
-            JsonDeserializer deserial = new JsonDeserializer();
-
             // Return the deserialized response
-            return deserial.Deserialize<RecognizeResponse>(requestResponse);
+            return this.deserial.Deserialize<RecognizeResponse>(requestResponse);
         }
 
         public Kairos.API.GalleryListResponse ListAll()
         {
-            var client = new RestClient(API_BASE_URL);
+            this.request.Resource = "gallery/list_all";
 
-            var request = new RestRequest("gallery/list_all", Method.POST);
-
-            request.RequestFormat = DataFormat.Json;
-
-            // Set request headers
-            request.AddHeader("app_id", this._applicationID);
-            request.AddHeader("app_key", this._applicationKey);
-            request.AddHeader("Content-Type", "application/json");
+            // set request headers
+            this.SetHeaders();
 
             // Execute the request
-            var requestResponse = client.Execute<GalleryListResponse>(request);
-
-            // Json Deserializer
-            JsonDeserializer deserial = new JsonDeserializer();
+            var requestResponse = client.Execute<GalleryListResponse>(this.request);
 
             // return deserialized data
-            return deserial.Deserialize<GalleryListResponse>(requestResponse);
+            return this.deserial.Deserialize<GalleryListResponse>(requestResponse);
         }
 
         public Kairos.API.GalleryViewResponse View(string galleryId)
         {
-            // create client
-            var client = new RestClient(API_BASE_URL);
-
-            // create request
-            var request = new RestRequest("gallery/view", Method.POST);
-
-            // specify data format
-            request.RequestFormat = DataFormat.Json;
-
-            // Set request headers
-            request.AddHeader("app_id", this._applicationID);
-            request.AddHeader("app_key", this._applicationKey);
-            request.AddHeader("Content-Type", "application/json");
+            this.request.Resource = "gallery/view";
+            // set request headers
+            this.SetHeaders();
 
             // add request body
-            request.AddBody(new { gallery_id = galleryId });
+            this.request.AddBody(new { gallery_id = galleryId });
 
             // execute request
-            var requestResponse = client.Execute<GalleryViewResponse>(request);
+            var requestResponse = client.Execute<GalleryViewResponse>(this.request);
 
-            // create Json Deserializer
-            JsonDeserializer deserial = new JsonDeserializer();
+            return this.deserial.Deserialize<GalleryViewResponse>(requestResponse);
+        }
 
-            return deserial.Deserialize<GalleryViewResponse>(requestResponse);
+        public void Intialize()
+        {
+            // create client
+            this.client = new RestClient(API_BASE_URL);
+
+            // create request
+            this.request = new RestRequest(Method.POST);
+
+            // specify data format
+            this.request.RequestFormat = DataFormat.Json;
+
+            // initialize json deserializer
+            this.deserial = new JsonDeserializer();
+        }
+
+        // Set request headers
+        private void SetHeaders()
+        {
+            this.request.AddHeader("app_id", this._applicationID);
+            this.request.AddHeader("app_key", this._applicationKey);
+            this.request.AddHeader("Content-Type", "application/json");
         }
     }
 }
