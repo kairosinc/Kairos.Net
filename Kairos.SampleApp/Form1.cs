@@ -21,27 +21,30 @@ namespace SampleApp
         {
             Kairos.API.KairosClient client = new Kairos.API.KairosClient();
 
-            client.ApplicationID = "c4214740";
-            client.ApplicationKey = "64cbdf468dc6a3523e4393b63735cdcf";
+            client.ApplicationID = "6e84090a";
+            client.ApplicationKey = "a339642569b8d8d30da6f75b484d904b";
 
             // Detect the face(s)
-            var detectResponse = client.Detect("http://wellness.18signals.com/kairos.jpg");
+            var detectResponse = client.Detect("https://rekognition.com/static/img/demo/people.jpg", "SETPOSE");
 
             // Get the image and face information
             var detectImage = detectResponse.Images[0];
             var face = detectImage.Faces[0];
 
             // Enroll the user
-            var enrollResponse = client.Enroll(detectImage.image_id, "humbywan1234", face.topLeftX, face.topLeftY, face.width, face.height);
+            var enrollResponse = client.Enroll("https://rekognition.com/static/img/demo/people.jpg", "girl_test", "gallerytest1", "SETPOSE");
 
             // Get the user enrollment transaction info
             var userImage = enrollResponse.Images[0].Transaction;
 
             // Recognize the user
-            var user = client.Recognize(userImage.image_id, face.topLeftX, face.topLeftY, face.width, face.height);
+            var user = client.Recognize("girl_test", "gallerytest1" );
 
             // Detected user ID
-            var userID = user.Images[0].Candidates.First().Key;        
+            var userID = user.Images[0].Candidates.First().Key;
+
+            MessageBox.Show(userID.ToString());
+
         }
     }
 }

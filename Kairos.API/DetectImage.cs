@@ -34,8 +34,6 @@ namespace Kairos.API
         public string file { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-        public string image_id { get; set; }
-        public DateTime image_expiration { get; set; }
         public List<Face> Faces { get; set; }        
 
         /// <summary>

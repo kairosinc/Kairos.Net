@@ -18,6 +18,7 @@
 */
 
 using RestSharp;
+using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,105 +81,174 @@ namespace Kairos.API
         /// Detects images and faces from an image
         /// </summary>
         /// <param name="imageUrl">The location (URI) of the image</param>
+        /// <param name="selector">Specify the type of data to receive from HTTP request ("SETPOSE" "FACE", "FULL", "EYES" -- see Kairos Documentation</param>
         /// <returns>The response from the call to /Detect</returns>
-        public Kairos.API.DetectResponse Detect(string imageUrl)
+        public Kairos.API.DetectResponse Detect(string imageUrl, string selector)
         {
             var client = new RestClient(API_BASE_URL);
             
             var request = new RestRequest("detect", Method.POST);
+            request.RequestFormat = DataFormat.Json;
 
             // Set the parameters
-            request.AddParameter("data", "{\"url\":\"" + imageUrl + "\"}");
-            request.AddParameter("app_id", this._applicationID);
-            request.AddParameter("app_key", this._applicationKey);
-            
+            // request.AddParameter("image", imageUrl);
+            // request.AddParameter("selector", "SETPOSE");
+            request.AddHeader("app_id", this._applicationID);
+            request.AddHeader("app_key", this._applicationKey);
+            request.AddHeader("Content-Type", "application/json");
+
+            request.AddBody(new { image = imageUrl, selector = selector.ToUpper() });
+
             // Specify the content type expected before desiarializing the object
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            // request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            
+            // Testing
+            // RestResponse response = (RestResponse) client.Execute(request);
+            // var content = response.Content;
 
             // Execute the request
             var requestResponse = client.Execute<DetectResponse>(request);
 
-            // Return the response
-            return requestResponse.Data;
+            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
+                return null;
+
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            // Return the deserialized response
+            return deserial.Deserialize<DetectResponse>(requestResponse);
+           
         }
 
         /// <summary>
-        /// Enrolls a previously detected image into the system by specifying the subject ID
+        /// Enrolls a previously detected image into the system by sending an image and specifying a subject and gallery id
         /// </summary>
-        /// <param name="imageId">The ID of the image previously detected</param>
+        /// <param name="imageUrl">The ID of the image previously detected</param>
         /// <param name="subjectId">The tracking ID of the user for which the image is being enrolled</param>
-        /// <param name="topLeftX">The x coordinate of the face location</param>
-        /// <param name="topLeftY">The y coordinate of the face location</param>
-        /// <param name="width">The width of the image area</param>
-        /// <param name="height">The height of the image area</param>
+        /// <param name="galleryId">the tracking ID of the gallery for which the image is being enrolled</param>
+        /// <param name="selector">Specify the type of data returned by the post request</param>
         /// <returns></returns>
-        public Kairos.API.EnrollResponse Enroll(string imageId, string subjectId, int topLeftX, int topLeftY, int width, int height)
+        public Kairos.API.EnrollResponse Enroll(string imageUrl, string subjectId, string galleryId, string selector)
         {
             var client = new RestClient(API_BASE_URL);
-
+            
             var request = new RestRequest("enroll", Method.POST);
+            request.RequestFormat = DataFormat.Json;
 
+            // Add request headers
+            request.AddHeader("app_id", this._applicationID);
+            request.AddHeader("app_key", this._applicationKey);
+            request.AddHeader("Content-Type", "application/json");
+            
             // Set the parameters
-            request.AddParameter("data", "{\"image_id\":\"" + imageId + "\",\"subject_id\":\"" + subjectId + "\",\"topLeftX\":" + topLeftX + ",\"topLeftY\":" + topLeftY + ",\"width\":" + width + ",\"height\":" + height + "}");
-            request.AddParameter("app_id", this._applicationID);
-            request.AddParameter("app_key", this._applicationKey);
+            // Note using the AddParameter method after using the Addbody method to add content to the HTTP Post, the body will be overridden. 
+            request.AddBody(new { image = imageUrl, subject_id = subjectId, gallery_name = galleryId, selector = selector.ToUpper() } );
 
-            // Specify the content type expected before desiarializing the object
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            // testing
+            // var response = client.Execute(request);
+            // var stuff = response.Content;
+            // var content = requestResponse.Content;
 
             // Execute the request
             var requestResponse = client.Execute<EnrollResponse>(request);
 
-            // Return the response
-            return requestResponse.Data;
+            // testing
+            // var content = requestResponse.Content;
+
+            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
+                return null;
+
+            // Json Deserializer
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            // Return the deserialized response
+            return deserial.Deserialize<EnrollResponse>(requestResponse);
         }
 
         /// <summary>
         /// Recognizes a previously detected/enrolled image in the system 
         /// </summary>
-        /// <param name="imageId">The image ID</param>
-        /// <param name="topLeftX">The x coordinate of the face location</param>
-        /// <param name="topLeftY">The y coordinate of the face location</param>
-        /// <param name="width">The width of the image area</param>
-        /// <param name="height">The height of the image area</param>
+
         /// <returns>The recognition response with the possible matches</returns>
-        public Kairos.API.RecognizeResponse Recognize(string imageId, int topLeftX, int topLeftY, int width, int height)
+        public Kairos.API.RecognizeResponse Recognize(string imageUrl, string galleryId)
         {
             var client = new RestClient(API_BASE_URL);
 
             var request = new RestRequest("recognize", Method.POST);
+            request.RequestFormat = DataFormat.Json;
 
-            // Set the parameters
-            request.AddParameter("data", "{\"image_id\":\"" + imageId + "\",\"topLeftX\":" + topLeftX + ",\"topLeftY\":" + topLeftY + ",\"width\":" + width + ",\"height\":" + height + "}");
-            request.AddParameter("app_id", this._applicationID);
-            request.AddParameter("app_key", this._applicationKey);
+            // Set request headers
+            request.AddHeader("app_id", this._applicationID);
+            request.AddHeader("app_key", this._applicationKey);
+            request.AddHeader("Content-Type", "application/json");
 
-            // Specify the content type expected before desiarializing the object
-            request.OnBeforeDeserialization = resp => { resp.ContentType = "application/json"; };
+            // Add request content 
+            request.AddBody(new { image = imageUrl, gallery_name = galleryId });
 
             // Execute the request
             var requestResponse = client.Execute<RecognizeResponse>(request);
 
-            // Return the response
-            return requestResponse.Data;
+            // testing
+            // var content = requestResponse.Content;
+
+            if (!requestResponse.ContentType.Equals("application/json") || requestResponse.Content.Equals(""))
+                return null;
+            
+            // Json Deserializer
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            // Return the deserialized response
+            return deserial.Deserialize<RecognizeResponse>(requestResponse);
         }
 
-        /// <summary>
-        /// Recognizes a previously detected/enrolled image in the system 
-        /// </summary>
-        /// <param name="imageUrl">The image ID</param>
-        /// <returns>The recognition response with the possible matches</returns>
-        public Kairos.API.RecognizeResponse Recognize(string imageUrl)
+        public Kairos.API.GalleryListResponse ListAll()
         {
-            // Detect the image information
-            var detectResponse = this.Detect(imageUrl);
+            var client = new RestClient(API_BASE_URL);
 
-            // Get the image and face information
-            var detectImage = detectResponse.Images[0];
-            var face = detectImage.Faces[0];
+            var request = new RestRequest("gallery/list_all", Method.POST);
 
-            // Recognize faces
-            return this.Recognize(detectImage.image_id, face.topLeftX, face.topLeftY, face.width, face.height);
+            request.RequestFormat = DataFormat.Json;
+
+            // Set request headers
+            request.AddHeader("app_id", this._applicationID);
+            request.AddHeader("app_key", this._applicationKey);
+            request.AddHeader("Content-Type", "application/json");
+
+            // Execute the request
+            var requestResponse = client.Execute<GalleryListResponse>(request);
+
+            // Json Deserializer
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            // return deserialized data
+            return deserial.Deserialize<GalleryListResponse>(requestResponse);
+        }
+
+        public Kairos.API.GalleryViewResponse View(string galleryId)
+        {
+            // create client
+            var client = new RestClient(API_BASE_URL);
+
+            // create request
+            var request = new RestRequest("gallery/view", Method.POST);
+
+            // specify data format
+            request.RequestFormat = DataFormat.Json;
+
+            // Set request headers
+            request.AddHeader("app_id", this._applicationID);
+            request.AddHeader("app_key", this._applicationKey);
+            request.AddHeader("Content-Type", "application/json");
+
+            // add request body
+            request.AddBody(new { gallery_id = galleryId });
+
+            // execute request
+            var requestResponse = client.Execute<GalleryViewResponse>(request);
+
+            // create Json Deserializer
+            JsonDeserializer deserial = new JsonDeserializer();
+
+            return deserial.Deserialize<GalleryViewResponse>(requestResponse);
         }
     }
 }

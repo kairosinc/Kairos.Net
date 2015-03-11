@@ -31,7 +31,7 @@ namespace Kairos.API
     public class RecognizeImage : ImageBase
     {
         public Kairos.API.Transaction Transaction { get; set; }
-        public Dictionary<string, string> Candidates { get; set; }
+        public List<Dictionary<string, string>> Candidates { get; set; }
 
         /// <summary>
         /// Default constructor
@@ -39,7 +39,7 @@ namespace Kairos.API
         public RecognizeImage()
         {
             this.Transaction = new Transaction();
-            this.Candidates = new Dictionary<string, string>();
+            this.Candidates = new List<Dictionary<string, string>>();
         }
     }
 }

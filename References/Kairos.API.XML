@@ -76,35 +76,26 @@
             <param name="applicationId">The Kairos application ID</param>
             <param name="applicationKey">The Kairos application Key</param>
         </member>
-        <member name="M:Kairos.API.KairosClient.Detect(System.String)">
+        <member name="M:Kairos.API.KairosClient.Detect(System.String,System.String)">
             <summary>
             Detects images and faces from an image
             </summary>
             <param name="imageUrl">The location (URI) of the image</param>
+            <param name="selector">Specify the type of data to receive from HTTP request ("SETPOSE" "FACE", "FULL", "EYES" -- see Kairos Documentation</param>
             <returns>The response from the call to /Detect</returns>
         </member>
-        <member name="M:Kairos.API.KairosClient.Enroll(System.String,System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
+        <member name="M:Kairos.API.KairosClient.Enroll(System.String,System.String,System.String,System.String)">
             <summary>
-            Enrolls a previously detected image into the system by specifying the subject ID
+            Enrolls a previously detected image into the system by sending an image and specifying a subject and gallery id
             </summary>
-            <param name="imageId">The ID of the image previously detected</param>
+            <param name="imageUrl">The ID of the image previously detected</param>
             <param name="subjectId">The tracking ID of the user for which the image is being enrolled</param>
-            <param name="topLeftX">The x coordinate of the face location</param>
-            <param name="topLeftY">The y coordinate of the face location</param>
-            <param name="width">The width of the image area</param>
-            <param name="height">The height of the image area</param>
+            <param name="galleryId">the tracking ID of the gallery for which the image is being enrolled</param>
+            <param name="selector">Specify the type of data returned by the post request</param>
             <returns></returns>
         </member>
-        <member name="M:Kairos.API.KairosClient.Recognize(System.String,System.Int32,System.Int32,System.Int32,System.Int32)">
-            <summary>
-            Recognizes a previously detected/enrolled image in the system 
-            </summary>
-            <param name="imageId">The image ID</param>
-            <param name="topLeftX">The x coordinate of the face location</param>
-            <param name="topLeftY">The y coordinate of the face location</param>
-            <param name="width">The width of the image area</param>
-            <param name="height">The height of the image area</param>
-            <returns></returns>
+        <member name="M:Kairos.API.KairosClient.Recognize(System.String,System.String)">
+            <returns>The recognition response with the possible matches</returns>
         </member>
         <member name="P:Kairos.API.KairosClient.ApplicationID">
             <summary>
@@ -134,6 +125,54 @@
         <member name="M:Kairos.API.RecognizeResponse.#ctor">
             <summary>
             Default constructor
+            </summary>
+        </member>
+        <member name="T:Kairos.API.Test">
+            <summary>
+            Wrapper class responsible for making call to the Kairos API
+            </summary>
+        </member>
+        <member name="M:Kairos.API.Test.#ctor">
+            <summary>
+            Our default constructor taking the application ID and application key as parameters
+            </summary>
+        </member>
+        <member name="M:Kairos.API.Test.#ctor(System.String,System.String)">
+            <summary>
+            Our default constructor taking the application ID and application key as parameters
+            </summary>
+            <param name="applicationId">The Kairos application ID</param>
+            <param name="applicationKey">The Kairos application Key</param>
+        </member>
+        <member name="M:Kairos.API.Test.Detect(System.String,System.String)">
+            <summary>
+            Detects images and faces from an image
+            </summary>
+            <param name="imageUrl">The location (URI) of the image</param>
+            <param name="selector">Specify the type of data to receive from HTTP request ("SETPOSE" "FACE", "FULL", "EYES" -- see Kairos Documentation</param>
+            <returns>The response from the call to /Detect</returns>
+        </member>
+        <member name="M:Kairos.API.Test.Enroll(System.String,System.String,System.String,System.String)">
+            <summary>
+            Enrolls a previously detected image into the system by sending an image and specifying a subject and gallery id
+            </summary>
+            <param name="imageUrl">The ID of the image previously detected</param>
+            <param name="subjectId">The tracking ID of the user for which the image is being enrolled</param>
+            <param name="galleryId">the tracking ID of the gallery for which the image is being enrolled</param>
+            <param name="selector">Specify the type of data returned by the post request</param>
+            <returns></returns>
+        </member>
+        <member name="M:Kairos.API.Test.Recognize(System.String,System.String)">
+            <returns>The recognition response with the possible matches</returns>
+        </member>
+        <member name="P:Kairos.API.Test.ApplicationID">
+            <summary>
+            The application ID
+            </summary>
+        </member>
+        <member name="P:Kairos.API.Test.ApplicationKey">
+            <summary>
+            The application key
             </summary>
         </member>
         <member name="T:Kairos.API.Transaction">

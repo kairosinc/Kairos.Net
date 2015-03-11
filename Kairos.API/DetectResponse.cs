@@ -42,5 +42,10 @@ namespace Kairos.API
         {
             this.Images = new List<DetectImage>();
         }
+
+        public bool HasFaces()
+        {
+            return this.Images.Any();
+        }
     }
 }
