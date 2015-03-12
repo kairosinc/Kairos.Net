@@ -1,23 +1,4 @@
-﻿/*************************************************************************
-* 
-* 18 SIGNALS CONFIDENTIAL
-* __________________
-* 
-*  [2013] 18 SIGNALS, LLC
-*  All Rights Reserved.
-* 
-* NOTICE:  All information contained herein is, and remains
-* the property of 18 SIGNALS, LLC and its suppliers,
-* if any.  The intellectual and technical concepts contained
-* herein are proprietary to 18 SIGNALS, LLC and its suppliers 
-* and may be covered by U.S. and Foreign Patents, patents in process, 
-* and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from 18 SIGNALS, LLC.
-*/
- 
-using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -26,11 +7,12 @@ using System.Threading.Tasks;
 namespace Kairos.API
 {
     /// <summary>
-    /// Response information after recognizing a previously enrolled/detected image
+    /// Response information after recognizing a previously enrolled image
     /// </summary>
     public class RecognizeResponse
     {
         public List<Kairos.API.RecognizeImage> Images { get; set; }
+        public List<Errors> Errors {get; set;}
 
         /// <summary>
         /// Default constructor
@@ -38,6 +20,7 @@ namespace Kairos.API
         public RecognizeResponse()
         {
             this.Images = new List<RecognizeImage>();
+            this.Errors = new List<Errors>();
         }
     }
 }

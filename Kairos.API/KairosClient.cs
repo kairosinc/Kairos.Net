@@ -1,23 +1,4 @@
-﻿/*************************************************************************
-* 
-* 18 SIGNALS CONFIDENTIAL
-* __________________
-* 
-*  [2013] 18 SIGNALS, LLC
-*  All Rights Reserved.
-* 
-* NOTICE:  All information contained herein is, and remains
-* the property of 18 SIGNALS, LLC and its suppliers,
-* if any.  The intellectual and technical concepts contained
-* herein are proprietary to 18 SIGNALS, LLC and its suppliers 
-* and may be covered by U.S. and Foreign Patents, patents in process, 
-* and are protected by trade secret or copyright law.
-* Dissemination of this information or reproduction of this material
-* is strictly forbidden unless prior written permission is obtained
-* from 18 SIGNALS, LLC.
-*/
-
-using RestSharp;
+﻿using RestSharp;
 using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
@@ -99,15 +80,57 @@ namespace Kairos.API
             this.request.AddBody(new { image = imageUrl, selector = selector.ToUpper() });
 
             // Testing
-            RestResponse response = (RestResponse)client.Execute(request);
+            var response = client.Execute(request);
             var content = response.Content;
+            var encoding = response.ContentEncoding;
 
             // Execute the request
             var requestResponse = client.Execute<DetectResponse>(request);
 
-            // Return the deserialized response
-            return this.deserial.Deserialize<DetectResponse>(requestResponse);
+            try
+            {
+                // Return the deserialized response
+                return deserial.Deserialize<DetectResponse>(requestResponse);
 
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
+
+
+        }
+
+        /// <summary>
+        /// Detects faces from an image using Kairos' default selector 
+        /// </summary>
+        /// <param name="imageUrl"></param>
+        /// <returns></returns>
+        public Kairos.API.DetectResponse Detect(string imageUrl)
+        {
+            this.request.Resource = "detect";
+
+            // set request headers
+            this.SetHeaders();
+
+            this.request.AddBody(new { image = imageUrl });
+
+            // Testing
+            // RestResponse response = (RestResponse)client.Execute(request);
+            // var content = response.Content;
+
+            // Execute the request
+            var requestResponse = client.Execute<DetectResponse>(request);
+
+            try
+            {
+                // Return the deserialized response
+                return this.deserial.Deserialize<DetectResponse>(requestResponse);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
         }
 
         /// <summary>
@@ -135,8 +158,15 @@ namespace Kairos.API
             // testing
             // var content = requestResponse.Content;
 
-            // Return the deserialized response
-            return this.deserial.Deserialize<EnrollResponse>(requestResponse);
+            try
+            {
+                // Return the deserialized response
+                return this.deserial.Deserialize<EnrollResponse>(requestResponse);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
         }
 
         /// <summary>
@@ -160,10 +190,21 @@ namespace Kairos.API
             // testing
             // var content = requestResponse.Content;
 
-            // Return the deserialized response
-            return this.deserial.Deserialize<RecognizeResponse>(requestResponse);
+            try
+            {
+                // Return the deserialized response
+                return this.deserial.Deserialize<RecognizeResponse>(requestResponse);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
         }
 
+        /// <summary>
+        /// Returns a list of all of the user's galleries
+        /// </summary>
+        /// <returns>GalleryListResponse containg a list of galleries</returns>
         public Kairos.API.GalleryListResponse ListAll()
         {
             this.request.Resource = "gallery/list_all";
@@ -174,10 +215,22 @@ namespace Kairos.API
             // Execute the request
             var requestResponse = client.Execute<GalleryListResponse>(this.request);
 
-            // return deserialized data
-            return this.deserial.Deserialize<GalleryListResponse>(requestResponse);
+            try
+            {
+                // return deserialized data
+                return this.deserial.Deserialize<GalleryListResponse>(requestResponse);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
         }
 
+        /// <summary>
+        /// View the enrolled subjects in a gallery
+        /// </summary>
+        /// <param name="galleryId"></param>
+        /// <returns>GalleryViewResponse containing a list of the subject ids</returns>
         public Kairos.API.GalleryViewResponse View(string galleryId)
         {
             this.request.Resource = "gallery/view";
@@ -185,15 +238,23 @@ namespace Kairos.API
             this.SetHeaders();
 
             // add request body
-            this.request.AddBody(new { gallery_id = galleryId });
+            this.request.AddBody(new { gallery_name = galleryId });
 
             // execute request
             var requestResponse = client.Execute<GalleryViewResponse>(this.request);
 
-            return this.deserial.Deserialize<GalleryViewResponse>(requestResponse);
+            try
+            {
+                // Return deserialized response
+                return this.deserial.Deserialize<GalleryViewResponse>(requestResponse);
+            }
+            catch (System.Runtime.Serialization.SerializationException)
+            {
+                throw new System.Runtime.Serialization.SerializationException("Error serializing JSON string. JSON string: " + requestResponse.Content);
+            }
         }
 
-        public void Intialize()
+        private void Intialize()
         {
             // create client
             this.client = new RestClient(API_BASE_URL);

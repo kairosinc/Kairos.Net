@@ -12,6 +12,7 @@ namespace Kairos.API
     public class EnrollResponse
     {
         public List<EnrollImage> Images { get; set; }
+        public List<Errors> Errors { get; set; }
 
         /// <summary>
         /// Our default constructor
@@ -19,6 +20,7 @@ namespace Kairos.API
         public EnrollResponse()
         {
             this.Images = new List<EnrollImage>();
+            this.Errors = new List<Errors>();
         }
     }
 }

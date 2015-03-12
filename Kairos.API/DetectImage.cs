@@ -34,14 +34,14 @@ namespace Kairos.API
         public string file { get; set; }
         public int width { get; set; }
         public int height { get; set; }
-        public List<Face> Faces { get; set; }        
+        public List<Face> Faces { get; set; }
 
         /// <summary>
         /// Our default constructor
         /// </summary>
         public DetectImage()
         {
-            this.Faces = new List<Face>();            
+            this.Faces = new List<Face>();
         }
     }
 }

@@ -50,6 +50,7 @@
     <Compile Include="DetectResponse.cs" />
     <Compile Include="EnrollImage.cs" />
     <Compile Include="EnrollResponse.cs" />
+    <Compile Include="Errors.cs" />
     <Compile Include="Face.cs" />
     <Compile Include="DetectImage.cs" />
     <Compile Include="GalleryListResponse.cs" />
