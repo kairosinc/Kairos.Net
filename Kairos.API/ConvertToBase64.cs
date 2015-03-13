@@ -40,5 +40,15 @@ namespace KairosApp
             }
         }
 
+        public static string ConvertImage(System.Drawing.Bitmap bmp)
+        {
+            using(MemoryStream ms = new MemoryStream())
+            {
+                bmp.Save(ms, System.Drawing.Imaging.ImageFormat.Jpeg);
+                byte[] imageBytes = ms.ToArray();
+                return Convert.ToBase64String(imageBytes);
+            }
+        }
+
     }
 }

@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Candidates.cs" />
+    <Compile Include="ConvertToBase64.cs" />
     <Compile Include="DetectResponse.cs" />
     <Compile Include="EnrollImage.cs" />
     <Compile Include="EnrollResponse.cs" />
