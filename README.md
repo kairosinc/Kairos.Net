@@ -1,18 +1,18 @@
+[![Build status](https://ci.appveyor.com/api/projects/status/gxjuitmsc5p10jof?svg=true)](https://ci.appveyor.com/project/faxedhead/kairos-net)
+
 Kairos.Net
 ==========
 
 A .NET Wrapper for the Kairos.io Facial Recognition API written in C#.
 
-[![Build status](https://ci.appveyor.com/api/projects/status/gxjuitmsc5p10jof?svg=true)](https://ci.appveyor.com/project/faxedhead/kairos-net)
-
 ### License: MIT
 
 ### About Kairos.io
-For more information and to register for an API key, visit http://Kairos.io.
+For more information and to register for an API key, visit http://kairos.com/.
 
-This library allows you to interact with the http://Kairos.io API for secured cloud-based facial recognition capabilities.
+This library allows you to interact with the Kairos API for secured cloud-based facial recognition capabilities.
 
-Install via nuget, or download the latest build from [here](https://ci.appveyor.com/api/projects/faxedhead/kairos-net/artifacts/Kairos.Net/bin.zip).
+Install via [nuget](https://www.nuget.org/packages/Kairos.Net/) (recommended), or download the latest build from [here](https://ci.appveyor.com/api/projects/faxedhead/kairos-net/artifacts/Kairos.Net/bin.zip).
 
 ### Usage
 The .NET library allows you to detect, enroll and recognize a face or faces from an image located on the internet.
@@ -58,4 +58,5 @@ The .NET library allows you to detect, enroll and recognize a face or faces from
     var face = detectedImage.Faces[0];
 
 ### Meta
-Thanks to Cole Calistra and Brian Brackeen
+
+Thanks to Cole Calistra, Brian Brackeen, Humberto Lee, and Dan McGrath.
