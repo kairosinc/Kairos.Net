@@ -12,4 +12,4 @@ before_build:
 build:
   verbosity: minimal
 artifacts:
-- path: Kairos.Net/bin/Release/*.dll
+- path: Kairos.Net/bin
