@@ -8,8 +8,8 @@ assembly_info:
   assembly_file_version: '{version}'
   assembly_informational_version: '{version}'
 before_build:
-- cmd: nuget restore C:\projects\Kairos.Net\Kairos.Net.sln
+- cmd: nuget restore C:\projects\kairos-net\Kairos.Net.sln
 build:
   verbosity: minimal
 artifacts:
-- path: Kairos.Net/bin/Release/Kairos.Net.dll
+- path: Kairos.Net/bin/Release/*.dll
