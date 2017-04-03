@@ -10,8 +10,9 @@ A .NET Wrapper for the Kairos.io Facial Recognition API written in C#.
 ### About Kairos.io
 For more information and to register for an API key, visit http://Kairos.io.
 
-This library allows you to interact with the http://Kairos.io API for secured cloud-based
-facial recognition capabilities.
+This library allows you to interact with the http://Kairos.io API for secured cloud-based facial recognition capabilities.
+
+Install via nuget, or download the latest build from [here](https://ci.appveyor.com/api/projects/faxedhead/kairos-net/artifacts/Kairos.Net/bin.zip).
 
 ### Usage
 The .NET library allows you to detect, enroll and recognize a face or faces from an image located on the internet.
