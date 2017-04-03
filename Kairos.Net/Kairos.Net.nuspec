@@ -7,6 +7,7 @@
     <authors>Peter Horsley</authors>
     <owners>Peter Horsley</owners>
     <projectUrl>https://github.com/peterhorsley/Kairos.Net</projectUrl>
+    <licenseUrl>https://github.com/peterhorsley/Kairos.Net/blob/master/License.md</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>https://github.com/peterhorsley/Kairos.Net</description>
     <releaseNotes>Initial release</releaseNotes>
