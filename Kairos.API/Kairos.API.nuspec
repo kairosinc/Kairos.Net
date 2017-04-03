@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Kairos.API</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Peter Horsley</authors>
+    <owners>Peter Horsley</owners>
+    <projectUrl>https://github.com/peterhorsley/Kairos.Net</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>https://github.com/peterhorsley/Kairos.Net</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2017</copyright>
+    <tags>Kairos API face recognition</tags>
+  </metadata>
+</package>

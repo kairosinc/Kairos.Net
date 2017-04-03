@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Kairos.API
+﻿namespace Kairos.API
 {
     /// <summary>
-    /// Transaction details after an enrollment
+    ///     Transaction details after an enrollment
     /// </summary>
     public class Transaction
     {

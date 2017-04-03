@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Kairos.API
 {
@@ -12,7 +8,7 @@ namespace Kairos.API
 
         public Candidates()
         {
-            this.candidates = new Dictionary<string, string>();
+            candidates = new Dictionary<string, string>();
         }
     }
 }

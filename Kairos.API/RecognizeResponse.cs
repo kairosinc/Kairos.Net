@@ -1,26 +1,22 @@
-﻿ using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Kairos.API
 {
     /// <summary>
-    /// Response information after recognizing a previously enrolled image
+    ///     Response information after recognizing a previously enrolled image
     /// </summary>
     public class RecognizeResponse
     {
-        public List<Kairos.API.RecognizeImage> Images { get; set; }
-        public List<Errors> Errors {get; set;}
-
         /// <summary>
-        /// Default constructor
+        ///     Default constructor
         /// </summary>
         public RecognizeResponse()
         {
-            this.Images = new List<RecognizeImage>();
-            this.Errors = new List<Errors>();
+            Images = new List<RecognizeImage>();
+            Errors = new List<Errors>();
         }
+
+        public List<RecognizeImage> Images { get; set; }
+        public List<Errors> Errors { get; set; }
     }
 }

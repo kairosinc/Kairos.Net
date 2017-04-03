@@ -1,24 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Kairos.API
 {
     /// <summary>
-    /// Response information for gallery/view call 
+    ///     Response information for gallery/view call
     /// </summary>
     public class GalleryViewResponse : ImageBase
     {
+        public GalleryViewResponse()
+        {
+            subjectIds = new List<string>();
+            Errors = new List<Errors>();
+        }
+
         public string status { get; set; }
         public List<string> subjectIds { get; set; }
         public List<Errors> Errors { get; set; }
-
-        public GalleryViewResponse()
-        {
-            this.subjectIds = new List<string>();
-            this.Errors = new List<Errors>();
-        }
     }
 }
