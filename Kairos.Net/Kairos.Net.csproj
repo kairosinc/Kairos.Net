@@ -7,8 +7,8 @@
     <ProjectGuid>{4860919F-602E-4300-975F-EFA376DE3894}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Kairos.API</RootNamespace>
-    <AssemblyName>Kairos.API</AssemblyName>
+    <RootNamespace>Kairos.Net</RootNamespace>
+    <AssemblyName>Kairos.Net</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -62,6 +62,7 @@
     <Compile Include="Transaction.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Kairos.Net.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

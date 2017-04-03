@@ -1,4 +1,4 @@
-﻿namespace Kairos.API
+﻿namespace Kairos.Net
 {
     /// <summary>
     ///     Information about a detected face on an image

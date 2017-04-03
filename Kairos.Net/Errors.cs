@@ -1,4 +1,4 @@
-﻿namespace Kairos.API
+﻿namespace Kairos.Net
 {
     /// <summary>
     ///     Error information

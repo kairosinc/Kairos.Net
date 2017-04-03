@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     Image information after detecting it from a URL

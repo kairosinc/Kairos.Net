@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     Response information for gallery/view call

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     Information about the users detected after trying to recognize the face

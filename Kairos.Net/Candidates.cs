@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     public class Candidates
     {

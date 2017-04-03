@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     Contains a list of gallery names and the status of the transaction

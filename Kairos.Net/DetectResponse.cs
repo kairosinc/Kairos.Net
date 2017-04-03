@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     The response to the facial recognition detect method

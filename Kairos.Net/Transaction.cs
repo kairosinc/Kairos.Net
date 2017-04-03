@@ -1,4 +1,4 @@
-﻿namespace Kairos.API
+﻿namespace Kairos.Net
 {
     /// <summary>
     ///     Transaction details after an enrollment

@@ -1,4 +1,4 @@
-﻿namespace Kairos.API
+﻿namespace Kairos.Net
 {
     /// <summary>
     ///     Image information after a user has been enrolled

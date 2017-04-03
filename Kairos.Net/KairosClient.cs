@@ -2,7 +2,7 @@
 using RestSharp;
 using RestSharp.Deserializers;
 
-namespace Kairos.API
+namespace Kairos.Net
 {
     /// <summary>
     ///     Wrapper class responsible for making call to the Kairos API
