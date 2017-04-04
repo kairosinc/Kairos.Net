@@ -6,7 +6,6 @@
     public class Transaction
     {
         public string status { get; set; }
-        public string subject { get; set; }
         public string face_id { get; set; }
         public string subject_id { get; set; }
         public string confidence { get; set; }
@@ -17,5 +16,6 @@
         public string image_id { get; set; }
         public string timestamp { get; set; }
         public string gallery_name { get; set; }
+        public float quality { get; set; }
     }
 }

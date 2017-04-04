@@ -45,13 +45,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Candidates.cs" />
+    <Compile Include="Candidate.cs" />
     <Compile Include="DetectResponse.cs" />
     <Compile Include="EnrollImage.cs" />
     <Compile Include="EnrollResponse.cs" />
     <Compile Include="Errors.cs" />
     <Compile Include="Face.cs" />
     <Compile Include="DetectImage.cs" />
+    <Compile Include="FaceAttributes.cs" />
+    <Compile Include="FaceGender.cs" />
     <Compile Include="GalleryListResponse.cs" />
     <Compile Include="GalleryViewResponse.cs" />
     <Compile Include="ImageBase.cs" />

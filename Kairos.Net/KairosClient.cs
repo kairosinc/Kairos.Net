@@ -57,13 +57,13 @@ namespace Kairos.Net
         /// <summary>
         ///     Detects images and faces from an image
         /// </summary>
-        /// <param name="imageUrl">The location (URI) of the image</param>
+        /// <param name="imageUrlOrBase64String">The location (URI) of the image or a base64 encoded string representation.</param>
         /// <param name="selector">
         ///     Specify the type of data to receive from HTTP request ("SETPOSE" "FACE", "FULL", "EYES" -- see
         ///     Kairos Documentation
         /// </param>
         /// <returns>The response from the call to /Detect</returns>
-        public DetectResponse Detect(string imageUrl, string selector)
+        public DetectResponse Detect(string imageUrlOrBase64String, string selector)
         {
             // create client
             var client = new RestClient(API_BASE_URL);
@@ -85,7 +85,7 @@ namespace Kairos.Net
             // initialize json deserializer
             var deserial = new JsonDeserializer();
 
-            request.AddBody(new {image = imageUrl, selector = selector.ToUpper()});
+            request.AddBody(new {image = imageUrlOrBase64String, selector = selector.ToUpper()});
 
             // Testing
             var response = client.Execute(request);
@@ -110,9 +110,9 @@ namespace Kairos.Net
         /// <summary>
         ///     Detects faces from an image using Kairos' default selector
         /// </summary>
-        /// <param name="imageUrl"></param>
+        /// <param name="imageUrlOrBase64String">The location (URI) of the image or a base64 encoded string representation.</param>
         /// <returns></returns>
-        public DetectResponse Detect(string imageUrl)
+        public DetectResponse Detect(string imageUrlOrBase64String)
         {
             // create client
             var client = new RestClient(API_BASE_URL);
@@ -134,11 +134,7 @@ namespace Kairos.Net
             // initialize json deserializer
             var deserial = new JsonDeserializer();
 
-            request.AddBody(new {image = imageUrl});
-
-            // Testing
-            // RestResponse response = (RestResponse)client.Execute(request);
-            // var content = response.Content;
+            request.AddBody(new {image = imageUrlOrBase64String});
 
             // Execute the request
             var requestResponse = client.Execute<DetectResponse>(request);
@@ -158,12 +154,12 @@ namespace Kairos.Net
         /// <summary>
         ///     Enrolls a previously detected image into the system by sending an image and specifying a subject and gallery id
         /// </summary>
-        /// <param name="imageUrl">The ID of the image previously detected</param>
+        /// <param name="imageUrlOrBase64String">The location (URI) of the image or a base64 encoded string representation.</param>
         /// <param name="subjectId">The tracking ID of the user for which the image is being enrolled</param>
         /// <param name="galleryId">the tracking ID of the gallery for which the image is being enrolled</param>
         /// <param name="selector">Specify the type of data returned by the post request</param>
         /// <returns></returns>
-        public EnrollResponse Enroll(string imageUrl, string subjectId, string galleryId, string selector)
+        public EnrollResponse Enroll(string imageUrlOrBase64String, string subjectId, string galleryId, string selector)
         {
             // create client
             var client = new RestClient(API_BASE_URL);
@@ -188,7 +184,7 @@ namespace Kairos.Net
             // Set the parameters
             // Note using the AddParameter method after using the Addbody method to add content to the HTTP Post, the body will be overridden. 
             request.AddBody(
-                new {image = imageUrl, subject_id = subjectId, gallery_name = galleryId, selector = selector.ToUpper()});
+                new {image = imageUrlOrBase64String, subject_id = subjectId, gallery_name = galleryId, selector = selector.ToUpper()});
 
             // Execute the request
             var requestResponse = client.Execute<EnrollResponse>(request);
@@ -212,7 +208,7 @@ namespace Kairos.Net
         ///     Recognizes a previously detected/enrolled image in the system
         /// </summary>
         /// <returns>The recognition response with the possible matches</returns>
-        public RecognizeResponse Recognize(string imageUrl, string galleryId)
+        public RecognizeResponse Recognize(string imageUrlOrBase64String, string galleryId)
         {
             // create client
             var client = new RestClient(API_BASE_URL);
@@ -235,7 +231,7 @@ namespace Kairos.Net
             var deserial = new JsonDeserializer();
 
             // Add request content 
-            request.AddBody(new {image = imageUrl, gallery_name = galleryId});
+            request.AddBody(new {image = imageUrlOrBase64String, gallery_name = galleryId});
 
             // Execute the request
             var requestResponse = client.Execute<RecognizeResponse>(request);

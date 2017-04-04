@@ -13,10 +13,10 @@ namespace Kairos.Net
         public RecognizeImage()
         {
             Transaction = new Transaction();
-            Candidates = new List<Dictionary<string, string>>();
+            Candidates = new List<Candidate>();
         }
 
         public Transaction Transaction { get; set; }
-        public List<Dictionary<string, string>> Candidates { get; set; }
+        public List<Candidate> Candidates { get; set; }
     }
 }
